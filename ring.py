@@ -76,19 +76,19 @@ class RingController:
         [self.set_brightness(round(i/100, 2)) for i in range(int(high_value*100), int(store_brightness*100), -5)]
         self.set_brightness(store_brightness)
 
-    def trail_wheel(self, color, multiplier):
+    def trail_wheel(self, color, multiplier, loop=True):
         self.__number = math.ceil(max(color) / (max(color) * multiplier))
         for i in range(self.__start_id, self.__num_pixels + self.__number):
-            ids = self.get_index_seq(i)
+            ids = self.get_index_seq(i, loop)
             self.create_trail(color, multiplier, ids)
             time.sleep(.05)
 
-    def get_index_seq(self, index):
+    def get_index_seq(self, index, loop):
         indexes = ()
         for i in range(self.__number + 1):
             if 0 <= index - i < self.__num_pixels:
                 indexes += (index - i,)
-            elif index - i >= self.__num_pixels:
+            elif index - i >= self.__num_pixels and loop:
                 self.__start_id = self.__number
                 indexes += (index - i - self.__num_pixels,)
         return indexes
