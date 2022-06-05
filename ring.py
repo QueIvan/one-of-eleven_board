@@ -18,9 +18,9 @@ class Colors:
 
 class RingController:
 
-    def __init__(self, num_pixels):
+    def __init__(self, num_pixels, brightness=0.05):
         self.__num_pixels = num_pixels
-        self.__pixels = neopixel.NeoPixel(board.D18, num_pixels, brightness=0.05, auto_write=False,
+        self.__pixels = neopixel.NeoPixel(board.D18, num_pixels, brightness=brightness, auto_write=False,
                                           pixel_order=neopixel.GRB)
         self.__start_id = 0
         self.__number = 0
@@ -42,11 +42,11 @@ class RingController:
         self.__pixels.show()
 
     @staticmethod
-    def step_fade_out(color, percent, step):
+    def step_fade_out(color, percentage, step):
         color = np.array(color)
         target = np.array(Colors.OFF)
         vector = target - color
-        result = color + vector * percent * step if min(color + vector * percent * step) >= 0 else Colors.OFF
+        result = color + vector * percentage * step if min(color + vector * percentage * step) >= 0 else Colors.OFF
         return tuple(np.array(np.rint(result), dtype=int))
 
     def create_trail(self, color, multiplier, ids):
@@ -64,15 +64,16 @@ class RingController:
         self.__pixels.show()
 
     def set_brightness(self, brightness):
-        self.__pixels.brightness = brightness / 100
+        self.__pixels.brightness = brightness
         self.__pixels.show()
         time.sleep(.05)
 
-    def flash_brightness(self, high_value):
-        store_brightness = self.__pixels.brightness * 100
-        self.set_brightness(high_value)
-        for i in range(0, high_value, 5):
-            self.set_brightness((high_value - i))
+    def flash_brightness(self, high_value, color=None):
+        if color is not None:
+            self.pixel_fill(color)
+        store_brightness = self.__pixels.brightness
+        [self.set_brightness(round(i/100, 2)) for i in range(int(store_brightness*100), int(high_value*100),  5)]
+        [self.set_brightness(round(i/100, 2)) for i in range(int(high_value*100), int(store_brightness*100), -5)]
         self.set_brightness(store_brightness)
 
     def trail_wheel(self, color, multiplier):
