@@ -25,9 +25,11 @@ class RingController:
         self.__start_id = 0
         self.__number = 0
 
-    def __del__(self):
-        self.__pixels.fill(Colors.OFF)
-        self.__pixels.show()
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.clear()
 
     # ********************
     #
