@@ -5,16 +5,28 @@ import neopixel
 import numpy as np
 
 
+class Colors:
+    RED = (255, 0, 0)
+    GREEN = (0, 255, 0)
+    BLUE = (0, 0, 255)
+    YELLOW = (255, 255, 0)
+    CYAN = (0, 255, 255)
+    MAGENTA = (255, 0, 255)
+    WHITE = (255, 255, 255)
+    OFF = (0, 0, 0)
+
+
 class RingController:
 
     def __init__(self, num_pixels):
         self.__num_pixels = num_pixels
-        self.__pixels = neopixel.NeoPixel(board.D18, num_pixels, brightness=0.05, auto_write=False, pixel_order=neopixel.GRB)
+        self.__pixels = neopixel.NeoPixel(board.D18, num_pixels, brightness=0.05, auto_write=False,
+                                          pixel_order=neopixel.GRB)
         self.__start_id = 0
         self.__number = 0
 
     def __del__(self):
-        self.__pixels.fill((0, 0, 0))
+        self.__pixels.fill(Colors.OFF)
         self.__pixels.show()
 
     # ********************
@@ -30,16 +42,16 @@ class RingController:
     @staticmethod
     def step_fade_out(color, percent, step):
         color = np.array(color)
-        target = np.array([0, 0, 0])
+        target = np.array(Colors.OFF)
         vector = target - color
-        result = color + vector * percent * step if min(color + vector * percent * step) >= 0 else (0, 0, 0)
+        result = color + vector * percent * step if min(color + vector * percent * step) >= 0 else Colors.OFF
         return tuple(np.array(np.rint(result), dtype=int))
 
     def create_trail(self, color, multiplier, ids):
         if len(ids) > 0:
             for j in ids:
                 step_count = ids.index(j) if min(ids) < self.__num_pixels - (self.__number + 1) else ids.index(j) + (
-                            self.__number + 1) - len(
+                        self.__number + 1) - len(
                     ids)
                 self.set_pixel(j, self.step_fade_out(color, multiplier, step_count))
             self.__pixels.show()
@@ -79,5 +91,5 @@ class RingController:
         return indexes
 
     def clear(self):
-        self.__pixels.fill((0, 0, 0))
+        self.__pixels.fill(Colors.OFF)
         self.__pixels.show()
