@@ -1,6 +1,14 @@
-def print_hi(name):
-    print(f'Hi, {name}')
+import ring
+
+
+def main():
+    while True:
+        ring.trail_wheel((0, 255, 0), .15)
 
 
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('\n\n[SIGINT] Program terminated by user.')
+        ring.clear()
