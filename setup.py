@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='one-of-eleven_board',
+    name='one_of_eleven_board',
     version='0.1.0',
     packages=find_packages(include=['one-of-eleven_board', 'one-of-eleven_board.*']),
     install_requires=[
@@ -10,6 +10,6 @@ setup(
         'adafruit-blinka',
     ],
     entry_points={
-        'console_scripts': ['test_board=one-of-eleven_board.main:main']
+        'console_scripts': ['test_board=one_of_eleven_board.main:main']
     }
 )
