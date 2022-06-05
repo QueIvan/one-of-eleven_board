@@ -1,4 +1,4 @@
-from ring import Colors, RingController
+from .ring import Colors, RingController
 
 
 def main():
