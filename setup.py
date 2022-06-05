@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='one_of_eleven_board',
     version='0.1.0',
-    packages=find_packages(include=['one-of-eleven_board', 'one-of-eleven_board.*']),
+    packages=find_packages(include=['one_of_eleven_board', 'one_of_eleven_board.*']),
     install_requires=[
         'numpy',
         'adafruit-python-shell',
