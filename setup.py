@@ -22,6 +22,7 @@ setup(
         'numpy',
         'adafruit-python-shell',
         'adafruit-blinka',
+        'unittest',
     ],
     entry_points={
         'console_scripts': ['run_board=one_of_eleven_board.main:main']

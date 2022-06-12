@@ -66,7 +66,8 @@ class RingController:
     def flash_brightness(self, target_value: float, color: tuple = None) -> None:
         if color is not None:
             self.pixel_fill(color)
-        [self.set_brightness(round(i / 100, 2)) for i in range(int(self.__brightness * 100), int(target_value * 100), 5)]
+        [self.set_brightness(round(i / 100, 2)) for i in
+         range(int(self.__brightness * 100), int(target_value * 100), 5)]
         [self.set_brightness(round(i / 100, 2)) for i in
          range(int(target_value * 100), int(self.__brightness * 100), -5)]
         self.set_brightness(self.__brightness)
